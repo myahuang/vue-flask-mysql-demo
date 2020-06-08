@@ -1,4 +1,9 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+# author:jingtongyu
+# datetime:2020/6/7 10:14 下午
+# software: PyCharm
+
 import hashlib
 import datetime
 from .code import CODE_MSG_MAP
@@ -42,3 +47,20 @@ def get_age(year, month, day):
         return now_year - year - 1
     else:
         return now_year - year
+
+
+def trueReturn(data, msg):
+    return {
+        "status": True,
+        "data": data,
+        "msg": msg
+    }
+
+
+def falseReturn(data, msg):
+    return {
+        "status": False,
+        "data": data,
+        "msg": msg
+    }
+

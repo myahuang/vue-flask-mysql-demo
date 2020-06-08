@@ -1,4 +1,9 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+# author:jingtongyu
+# datetime:2020/6/7 10:14 下午
+# software: PyCharm
+
 from flask import current_app, abort
 from flask_restful import Resource
 from flask_restful.reqparse import RequestParser
@@ -7,7 +12,6 @@ from app import hash_ids
 from models import db
 from common import code, pretty_result
 from models.profiles import ProfilesModel
-
 
 class ProfileListResource(Resource):
     """

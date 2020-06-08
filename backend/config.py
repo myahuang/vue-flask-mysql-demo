@@ -1,6 +1,12 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+# author:jingtongyu
+# datetime:2020/6/7 10:14 下午
+# software: PyCharm
+
 import os
 import multiprocessing
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 MODE = 'develop'  # develop: 开发模式; production: 生产模式
 
@@ -19,8 +25,16 @@ class ProductionConfig(object):
     LOG_FILE_MAX_BYTES = 1024 * 1024 * 100
     LOG_FILE_BACKUP_COUNT = 10
     PID_FILE = 'run.pid'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'example.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # sqlite 数据库配置
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'example.db')
+    # SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:password@127.0.0.1/demo"
+    SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    BASEDIR = basedir
+    # 安全配置
+    CSRF_ENABLED = True
+    SECRET_KEY = 'jklklsadhfjkhwbii9/sdf\sdf'
 
 
 class DevelopConfig(object):
@@ -37,11 +51,20 @@ class DevelopConfig(object):
     LOG_FILE_MAX_BYTES = 1024 * 1024
     LOG_FILE_BACKUP_COUNT = 1
     PID_FILE = 'run.pid'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'example.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # sqlite 数据库配置
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'example.db')
+    # SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:password@127.0.0.1/demo"
+    SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    BASEDIR = basedir
+    # 安全配置
+    CSRF_ENABLED = True
+    SECRET_KEY = 'jklklsadhfjkhwbii9/sdf\sdf'
 
 
 if MODE == 'production':
     config = ProductionConfig
 else:
     config = DevelopConfig
+

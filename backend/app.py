@@ -1,7 +1,12 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+# author:jingtongyu
+# datetime:2020/6/7 10:14 下午
+# software: PyCharm
+
 import string
 import flask_restful
-from flask import Flask, abort, jsonify
+from flask import Flask, abort, jsonify, request
 from hashids import Hashids
 from models import db
 from common import code, pretty_result
@@ -51,6 +56,17 @@ def create_app(config):
     app.after_request(_access_control)
     # 自定义abort 400 响应数据格式
     flask_restful.abort = _custom_abort
+
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        if request.method == 'OPTIONS':
+            response.headers['Access-Control-Allow-Methods'] = 'DELETE, GET, POST, PUT'
+            headers = request.headers.get('Access-Control-Request-Headers')
+            if headers:
+                response.headers['Access-Control-Allow-Headers'] = headers
+        return response
+
     # 数据库初始化
     db.init_app(app)
     # 注册蓝图
