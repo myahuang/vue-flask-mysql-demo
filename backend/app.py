@@ -10,6 +10,8 @@ from flask import Flask, abort, jsonify, request
 from hashids import Hashids
 from models import db
 from common import code, pretty_result
+# 添加请求钩子
+from common.middlewares import jwt_authentication
 
 app = Flask(__name__)
 
@@ -57,6 +59,9 @@ def create_app(config):
     # 自定义abort 400 响应数据格式
     flask_restful.abort = _custom_abort
 
+    @app.before_request
+    def before_request():
+        jwt_authentication()
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Origin', '*')

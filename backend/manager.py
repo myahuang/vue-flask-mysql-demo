@@ -38,8 +38,6 @@ log_dirs = app.config.get('LOG_DIR_PATH', 'logs')
 if not os.path.exists(log_dirs):
     os.makedirs(log_dirs)
 
-# 设置日志的格式           日志等级     日志信息文件名   行数        日志信息
-# %(levelname)s %(filename)s %(lineno)d %(message)s
 formatter = logging.Formatter('%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')
 
 
@@ -100,15 +98,11 @@ def debug():
     debug模式启动命令函数
     To use: python3 manager.py debug
     """
-    # 日至等级的设置
     logging.basicConfig(level=level_relations.get(app.config.get('LOG_LEVEL', 'DEBUG')))
-    # 创建日志记录器，指明日志保存路径,每个日志的大小，保存日志的上限
     file_log_handler = RotatingFileHandler(os.path.join(log_dirs, 'debug.log'),
                     maxBytes=app.config.get('LOG_FILE_MAX_BYTES', 1024 * 1024),
                     backupCount=app.config.get('LOG_FILE_BACKUP_COUNT', 1))
-    # 将日志记录器指定日志的格式
     file_log_handler.setFormatter(formatter)
-    # 为全局的日志工具对象添加日志记录器
     logging.getLogger().addHandler(file_log_handler)
 
     app.run(debug=True)

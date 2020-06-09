@@ -4,6 +4,7 @@
 # datetime:2020/6/7 10:14 下午
 # software: PyCharm
 
+from flask import current_app
 from . import db
 from .base import BaseModel
 from sqlalchemy.exc import SQLAlchemyError
@@ -53,4 +54,5 @@ def session_commit():
     except SQLAlchemyError as e:
         db.session.rollback()
         reason = str(e)
+        current_app.logger.info(e)
         return reason

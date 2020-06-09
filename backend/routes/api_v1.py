@@ -6,13 +6,16 @@
 
 from flask import Blueprint
 from flask_restful import Api
-from resources import profiles
-from resources import users
+from resources import profiles, users, login, auths
 
 api_v1 = Blueprint('api_v1', __name__)
 
 api = Api(api_v1)
 
-api.add_resource(profiles.ProfileListResource, '/profiles', endpoint = 'tasks')
+api.add_resource(profiles.ProfileListResource, '/profiles', endpoint='profiles')
 api.add_resource(profiles.ProfileResource, '/profiles/<string:id>')
-api.add_resource(users.UserResource, '/test')
+api.add_resource(users.UserResource, '/user')
+api.add_resource(login.RegisterResource, '/register')
+api.add_resource(login.LoginResource, '/login')
+api.add_resource(login.LogoutResource, '/logout')
+api.add_resource(auths.AuthorizationResource, '/refresh')

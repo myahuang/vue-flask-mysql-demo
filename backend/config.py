@@ -35,6 +35,9 @@ class ProductionConfig(object):
     # 安全配置
     CSRF_ENABLED = True
     SECRET_KEY = 'jklklsadhfjkhwbii9/sdf\sdf'
+    JWT_EXPIRY_HOURS = 1
+    JWT_REFRESH_DAYS = 1
+    JWT_SECRET = 'jklklsadhfjkhwbii9/sdf\sdf'
 
 
 class DevelopConfig(object):
@@ -61,6 +64,9 @@ class DevelopConfig(object):
     # 安全配置
     CSRF_ENABLED = True
     SECRET_KEY = 'jklklsadhfjkhwbii9/sdf\sdf'
+    JWT_EXPIRY_HOURS = 1
+    JWT_REFRESH_DAYS = 1
+    JWT_SECRET = 'jklklsadhfjkhwbii9/sdf\sdf'
 
 
 if MODE == 'production':
