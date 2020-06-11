@@ -4,7 +4,7 @@
 # datetime:2020/6/8 10:14 下午
 # software: PyCharm
 
-from flask import jsonify, request, current_app
+from flask import jsonify, request, current_app, g
 from models.users import UsersModel
 from models import db
 from flask_restful import Resource, inputs
@@ -29,24 +29,25 @@ class UserResource(Resource):
         获取用户信息
         :return: json
         """
-        # result = Auth.identify(Auth, request)
-        # print(result)
-        # if (result['code']==0 and result['data']):
-        # user = UsersModel.get(UsersModel, result['data'])
-        # returnUser = {
-        #     'id': user.id,
-        #     'username': user.username,
-        #     'email': user.email,
-        #     'login_time': user.login_time
-        # }
-        returnUser = ''
-        result = pretty_result(code.OK, data=returnUser, msg='请求成功')
-        return result
+        user = UsersModel.get(UsersModel, g.user_id)
+        returnUser = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'login_time': user.login_time
+        }
+        return pretty_result(code.OK, data=returnUser)
 
+    @login_required
     def post(self):
-        self.parser.add_argument("page_num", type=int, required=True, location="json", default=1, help='Rate cannot be converted')
-        args = self.parser.parse_args()
-        print(args)
-        item = {'a': 'bc'}
-        return pretty_result(code.OK, data=item)
+        user = UsersModel.get(UsersModel, g.user_id)
+        returnUser = {
+            'id': user.id,
+            'userName': user.username,
+            'email': user.email,
+            'permission': user.permission,
+            'avatar': user.avatar
+            # 'login_time': user.login_time
+        }
+        return pretty_result(code.OK, data=returnUser)
 

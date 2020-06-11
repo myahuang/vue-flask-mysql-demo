@@ -16,7 +16,7 @@ def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if not g.user_id:
-            return pretty_result(code.AUTHORIZATION_ERROR, msg='User must be authorized.')
+            return pretty_result(code.UNAUTHORIZATION_ERROR, msg='User must be authorized.')
             # return {'message': 'User must be authorized.'}, 401
         elif g.is_refresh_token:
             return pretty_result(code.AUTHORIZATION_ERROR, msg='Do not use refresh token.')

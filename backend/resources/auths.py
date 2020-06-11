@@ -27,11 +27,12 @@ class AuthorizationResource(Resource):
          # 颁发JWT
         now = datetime.utcnow()
         expiry = now + timedelta(hours=current_app.config['JWT_EXPIRY_HOURS'])# 短期token
-        # expiry = now + timedelta(seconds=60)
+        expiry = now + timedelta(seconds=10)
         token = generate_jwt({'user_id': user_id, 'refresh': False}, expiry)
         refresh_token = None
         if with_refresh_token:
             refresh_expiry = now + timedelta(days=current_app.config['JWT_REFRESH_DAYS']) # 长期token
+            # refresh_expiry = now + timedelta(seconds=20)  # 长期token
             refresh_token = generate_jwt({'user_id': user_id, 'refresh': True}, refresh_expiry)
         return token, refresh_token
 
@@ -41,7 +42,7 @@ class AuthorizationResource(Resource):
         """
         userInfo = UsersModel.query.filter_by(username=username).first()
         if (userInfo is None):
-            return pretty_result(code.OK, data='', msg='找不到用户')
+            return pretty_result(code.ERROR, data='', msg='找不到用户')
         else:
             if (UsersModel.check_password(UsersModel, userInfo.password, password)):
                 login_time = int(time.time())
@@ -51,7 +52,7 @@ class AuthorizationResource(Resource):
                 token, refresh_token = self._generate_tokens(user_id)
                 return pretty_result(code.OK, data={'access_token': token, 'refresh_token': refresh_token}, msg='登录成功')
             else:
-                return pretty_result(code.OK, data='', msg='密码不正确')
+                return pretty_result(code.ERROR, data='', msg='密码不正确')
 
     # 补充put方式 更新token接口
     def put(self):

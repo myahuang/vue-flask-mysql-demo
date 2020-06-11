@@ -30,12 +30,13 @@ class RegisterResource(Resource):
         """
         self.parser.add_argument("email", type=inputs.regex(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'), required=True, location="form",
                                  help='email format is incorrect')
-        self.parser.add_argument("username", type=str, required=True, location="form",
-                                 help='username is required')
+        self.parser.add_argument("userName", type=str, required=True, location="form",
+                                 help='userName is required')
+        self.parser.add_argument("permission", type=str, choices=['test', 'user', 'admin', 'superAdmin'], required=True, location="form",
+                                 help='permission is required and only (test,user,admin,superAdmin)')
         self.parser.add_argument("password", type=password_len, required=True, location="form", trim=True)
         args = self.parser.parse_args()
-        user = UsersModel(email=args.email, username=args.username, password=UsersModel.set_password(UsersModel, args.password))
-        print(user)
+        user = UsersModel(email=args.email, username=args.userName, password=UsersModel.set_password(UsersModel, args.password), permission=args.permission)
         result = UsersModel.add(UsersModel, user)
         if user.id:
             returnUser = {
@@ -46,7 +47,7 @@ class RegisterResource(Resource):
             }
             return pretty_result(code.OK, data=returnUser, msg='用户注册成功')
         else:
-            return pretty_result(code.OK, data='', msg='用户注册失败(用户名或邮箱已存在)')
+            return pretty_result(code.ERROR, data='', msg='用户注册失败(用户名或邮箱已存在)')
 
 
 class LoginResource(Resource):
@@ -62,11 +63,11 @@ class LoginResource(Resource):
         用户登陆
         :return: json
         """
-        self.parser.add_argument("username", type=str, required=True, location="form",
-                                 help='username is required')
-        self.parser.add_argument("password", type=password_len, required=True, location="form", trim=True)
+        self.parser.add_argument("userName", type=str, required=True, location="json",
+                                 help='userName is required')
+        self.parser.add_argument("password", type=password_len, required=True, location="json", trim=True)
         args = self.parser.parse_args()
-        return AuthorizationResource.post(AuthorizationResource, args.username, args.password)
+        return AuthorizationResource.post(AuthorizationResource, args.userName, args.password)
 
 
 class LogoutResource(Resource):
@@ -78,7 +79,7 @@ class LogoutResource(Resource):
         self.parser = RequestParser()
 
     @login_required
-    def get(self):
+    def post(self):
         '''
         存在的两个问题
         用户登出

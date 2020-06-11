@@ -16,13 +16,16 @@ class UsersModel(db.Model, BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(250),  unique=True, nullable=False)
     username = db.Column(db.String(250),  unique=True, nullable=False)
-    password = db.Column(db.String(250))
+    password = db.Column(db.String(250),nullable=False)
+    permission = db.Column(db.String(50), default='test', nullable=False)
+    avatar = db.Column(db.String(500), default="http://beautiful.panm.cn/vue-admin-beautiful/static/img/user.20010688.gif", nullable=False)
     login_time = db.Column(db.Integer)
 
-    def __init__(self, username, password, email):
+    def __init__(self, username, password, email, permission):
         self.username = username
         self.password = password
         self.email = email
+        self.permission = permission
 
     def __str__(self):
         return "Users(id='%s')" % self.id
