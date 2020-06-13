@@ -71,7 +71,7 @@ def run():
     # 日至等级的设置
     logging.basicConfig(level=level_relations.get(app.config.get('LOG_LEVEL', 'INFO')))
     # 创建日志记录器，指明日志保存路径,每个日志的大小，保存日志的上限
-    file_log_handler = RotatingFileHandler(os.path.join(log_dirs, 'prod.log'),
+    file_log_handler = RotatingFileHandler(os.path.join(log_dirs, 'prod.logs'),
                                            maxBytes=app.config.get('LOG_FILE_MAX_BYTES', 1024 * 1024 * 100),
                                            backupCount=app.config.get('LOG_FILE_BACKUP_COUNT', 10))
     # 将日志记录器指定日志的格式
@@ -99,7 +99,7 @@ def debug():
     To use: python3 manager.py debug
     """
     logging.basicConfig(level=level_relations.get(app.config.get('LOG_LEVEL', 'DEBUG')))
-    file_log_handler = RotatingFileHandler(os.path.join(log_dirs, 'debug.log'),
+    file_log_handler = RotatingFileHandler(os.path.join(log_dirs, 'debug.logs'),
                     maxBytes=app.config.get('LOG_FILE_MAX_BYTES', 1024 * 1024),
                     backupCount=app.config.get('LOG_FILE_BACKUP_COUNT', 1))
     file_log_handler.setFormatter(formatter)

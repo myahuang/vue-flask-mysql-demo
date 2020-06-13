@@ -7,7 +7,7 @@
 import logging
 import unittest
 class lgtest(unittest.TestCase):
-    logging.basicConfig(filename='../LOG/'+__name__+'.log',format='[%(asctime)s-%(filename)s-%(levelname)s:%(message)s]', level = logging.DEBUG,filemode='a',datefmt='%Y-%m-%d%I:%M:%S %p')
+    logging.basicConfig(filename='../LOG/'+__name__+'.logs',format='[%(asctime)s-%(filename)s-%(levelname)s:%(message)s]', level = logging.DEBUG,filemode='a',datefmt='%Y-%m-%d%I:%M:%S %p')
 
     def test(self):
         logging.error("这是一条error信息的打印")

@@ -15,7 +15,7 @@ class ProductionConfig(object):
     """
     生产配置
     """
-    BIND = '127.0.0.1:5000'
+    BIND = '0.0.0.0:5000'
     WORKERS = multiprocessing.cpu_count() * 2 + 1
     WORKER_CONNECTIONS = 10000
     BACKLOG = 64
@@ -57,8 +57,18 @@ class DevelopConfig(object):
     # sqlite 数据库配置
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'example.db')
     # SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:password@127.0.0.1/demo"
+    # SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:password@127.0.0.1/demo"
+    HOSTNAME = 'db'
+    PORT = '3306'
+    DATABASE = 'demo'
+    USERNAME = 'root'
+    PASSWORD = 'password'
+    # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@127.0.0.1/tushare?charset=utf8'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOSTNAME, PORT,
+                                                                                   DATABASE)
+
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     BASEDIR = basedir
     # 安全配置
