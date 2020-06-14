@@ -19,5 +19,7 @@ https://juejin.im/post/5d2fec236fb9a07ef161b9e4
 #部署
 * 前端 vue pm2 nginx docker
 https://segmentfault.com/a/1190000021395244
+vue-cli部署
+https://cli.vuejs.org/guide/deployment.html#github-pages
 * 后端 flask mysql gunicorn nginx docker
 * 前后端服务编排 docker compose

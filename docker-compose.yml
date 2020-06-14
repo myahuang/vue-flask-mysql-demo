@@ -1,27 +1,76 @@
-version: '3.5'
+version: '3'
+
 services:
-  web_dev:
-    build: .
+  backend:
+    container_name: container_backend
+    restart: always
+    build: ./backend
     ports:
-     - "4000:4000"
+      - "5000:5000"
     volumes:
-     - .:/usr/src/app
-    environment:
-     - ENV=development
-     - PORT=4000
-     - DB=mongodb://mongodb:27017/todoDev
-     - SECRET='to-do-app-secret'
-  mongodb:
-    image: mongo:latest
-    container_name: "mongodb"
-    environment:
-      - MONGO_DATA_DIR=/usr/data/db
-      - MONGO_LOG_DIR=/dev/null
-    volumes:
-      - ./data/db:/usr/data/db
+      - ./backend:/code
+    links:
+      - db
+    depends_on:
+      - db
+    command: ["/code/wait-for-it.sh", "container_mysql:3306", "--", "bash","startup.sh"]
+
+  frontend:
+    container_name: container_frontend
+    restart: always
+    build: ./frontend
     ports:
-        - 27017:27017
-    command: mongod --smallfiles --logpath=/dev/null # --quiet
-networks:
-  default:
-    name: web_dev
+      - "8085:80"
+
+  nginx:
+    container_name: container_nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "8888:80"
+    volumes:            # 挂载文件夹，配置我们可以写在宿主机，然后挂载进去
+      #- ./nginx/conf.d:/etc/nginx/conf.d
+      #- ./nginx/cert:/etc/nginx/cret
+      - ./nginx/logs/nginx:/var/log/nginx
+    links:
+      - frontend
+      - backend
+    depends_on:
+      - frontend
+      - backend
+
+  db:
+    restart: always
+    image: mysql:latest
+    env_file: .env
+    container_name: container_mysql
+    ports:
+      - '3306:3306'
+    volumes:
+      - "./mysql/db:/var/lib/mysql"
+      - "./mysql/conf/my.cnf:/etc/my.cnf"
+      - "./mysql/init:/docker-entrypoint-initdb.d/"
+#    networks:
+#      - nginx_nw
+#
+#networks:
+#  backend_nw:
+#    driver: bridge
+#  frontend_nw:
+#    driver: bridge
+#  nginx_nw:
+#    driver: bridge
+#  mysql_nw:
+#    driver: bridge
+
+#volumes:
+#  mysql-data:
+
+#  redis:
+#    image: daocloud.io/redis:3
+#    command: redis-server
+#    volumes:
+#      - ./deployment/redis:/data
+#    ports:
+#      - "6379:6379"
+#    restart: always # always表容器运行发生错误时一直重启

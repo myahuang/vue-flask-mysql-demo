@@ -32,9 +32,11 @@ class UserResource(Resource):
         user = UsersModel.get(UsersModel, g.user_id)
         returnUser = {
             'id': user.id,
-            'username': user.username,
+            'userName': user.username,
             'email': user.email,
-            'login_time': user.login_time
+            'permission': user.permission,
+            'avatar': user.avatar
+            # 'login_time': user.login_time
         }
         return pretty_result(code.OK, data=returnUser)
 
