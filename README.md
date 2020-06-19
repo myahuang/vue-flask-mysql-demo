@@ -15,6 +15,8 @@ https://github.com/lalala223/flask-restful-example.git
 https://blog.csdn.net/yilovexing/article/details/104010890
 https://github.com/zhouwei713/flask-webauth
 https://juejin.im/post/5d2fec236fb9a07ef161b9e4
+sphinx api文档生成
+https://www.jianshu.com/p/d4a1347f467b
 
 #部署
 * 前端 vue pm2 nginx docker

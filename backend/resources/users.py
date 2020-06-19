@@ -17,7 +17,7 @@ from common.decorators import login_required
 
 class UserResource(Resource):
     """
-    示例profile list资源类
+    users list资源类
     """
 
     def __init__(self):

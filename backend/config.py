@@ -65,7 +65,7 @@ class DevelopConfig(object):
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'example.db')
     # SQLALCHEMY_TRACK_MODIFICATIONS = False
     # SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:password@127.0.0.1/demo"
-    HOSTNAME = 'db'
+    HOSTNAME = '127.0.0.1'
     PORT = '3306'
     DATABASE = 'demo'
     USERNAME = 'root'

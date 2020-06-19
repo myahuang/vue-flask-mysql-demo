@@ -24,3 +24,5 @@ Werkzeug==0.14.1
 hashids==1.2.0
 PyMySQL==0.9.3
 pyjwt==1.7.1
+Sphinx==3.1.1
+sphinx-rtd-theme==0.4.3
