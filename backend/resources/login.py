@@ -28,15 +28,15 @@ class RegisterResource(Resource):
         用户注册
         :return: json
         """
-        self.parser.add_argument("email", type=inputs.regex(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'), required=True, location="form",
+        self.parser.add_argument("email", type=inputs.regex(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'), required=True, location="json",
                                  help='email format is incorrect')
-        self.parser.add_argument("userName", type=str, required=True, location="form",
-                                 help='userName is required')
-        self.parser.add_argument("permission", type=str, choices=['test', 'user', 'admin', 'superAdmin'], required=True, location="form",
+        self.parser.add_argument("username", type=str, required=True, location="json",
+                                 help='username is required')
+        self.parser.add_argument("permission", type=str, choices=['test','guest', 'user', 'admin', 'superAdmin'], required=True, location="json",
                                  help='permission is required and only (test,user,admin,superAdmin)')
-        self.parser.add_argument("password", type=password_len, required=True, location="form", trim=True)
+        self.parser.add_argument("password", type=password_len, required=True, location="json", trim=True)
         args = self.parser.parse_args()
-        user = UsersModel(email=args.email, username=args.userName, password=UsersModel.set_password(UsersModel, args.password), permission=args.permission)
+        user = UsersModel(email=args.email, username=args.username, password=UsersModel.set_password(UsersModel, args.password), permission=args.permission)
         result = UsersModel.add(UsersModel, user)
         if user.id:
             returnUser = {
@@ -63,11 +63,11 @@ class LoginResource(Resource):
         用户登陆
         :return: json
         """
-        self.parser.add_argument("userName", type=str, required=True, location="json",
+        self.parser.add_argument("username", type=str, required=True, location="json",
                                  help='userName is required')
         self.parser.add_argument("password", type=password_len, required=True, location="json", trim=True)
         args = self.parser.parse_args()
-        return AuthorizationResource.post(AuthorizationResource, args.userName, args.password)
+        return AuthorizationResource.post(AuthorizationResource, args.username, args.password)
 
 
 class LogoutResource(Resource):

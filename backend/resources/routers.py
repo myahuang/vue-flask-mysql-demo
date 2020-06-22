@@ -10,7 +10,7 @@ from common.decorators import login_required
 import json, os
 
 
-class routerResource(Resource):
+class RouterResource(Resource):
     """
     router list资源类
     """

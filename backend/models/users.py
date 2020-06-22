@@ -9,6 +9,7 @@ from . import db
 from .base import BaseModel
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
+import time
 
 
 class UsersModel(db.Model, BaseModel):
@@ -17,9 +18,9 @@ class UsersModel(db.Model, BaseModel):
     email = db.Column(db.String(250),  unique=True, nullable=False)
     username = db.Column(db.String(250),  unique=True, nullable=False)
     password = db.Column(db.String(250),nullable=False)
-    permission = db.Column(db.String(50), default='test', nullable=False)
+    permission = db.Column(db.String(50), default='guest', nullable=False)
     avatar = db.Column(db.String(500), default="http://beautiful.panm.cn/vue-admin-beautiful/static/img/user.20010688.gif", nullable=False)
-    login_time = db.Column(db.Integer)
+    login_time = db.Column(db.Integer, default=int(time.time()))
 
     def __init__(self, username, password, email, permission):
         self.username = username
@@ -36,8 +37,14 @@ class UsersModel(db.Model, BaseModel):
     def check_password(self, hash, password):
         return check_password_hash(hash, password)
 
-    def get(self, id):
-        return self.query.filter_by(id=id).first()
+    def paginate(self, page, per_page):
+        return self.query.paginate(page=page, per_page=per_page, error_out=False)
+
+    def filter_by_username(self, username):
+        return self.query.filter(self.username.like("%" + username + "%") ).all()
+
+    def get(self, _id):
+        return self.query.filter_by(id=_id).first()
 
     def add(self, user):
         db.session.add(user)
@@ -46,8 +53,9 @@ class UsersModel(db.Model, BaseModel):
     def update(self):
         return session_commit()
 
-    def delete(self, id):
-        self.query.filter_by(id=id).delete()
+    def delete(self, ids):
+        # self.query.filter_by(id=id).delete()
+        self.query.filter(self.id.in_(ids)).delete(synchronize_session=False)
         return session_commit()
 
 

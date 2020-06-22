@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-# -*- coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 # author:jingtongyu
-# datetime:2020/6/8 10:14 下午
+# datetime:2020/6/21 9:46 下午
 # software: PyCharm
 
 from flask import jsonify, request, current_app, g
@@ -15,7 +15,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from common.decorators import login_required
 
 
-class UserResource(Resource):
+class RoleManagementResource(Resource):
     """
     users list资源类
     """
@@ -26,30 +26,35 @@ class UserResource(Resource):
     @login_required
     def get(self):
         """
-        获取用户信息
+        获取用户列表信息
         :return: json
         """
         user = UsersModel.get(UsersModel, g.user_id)
         returnUser = {
             'id': user.id,
-            'username': user.username,
+            'userName': user.username,
             'email': user.email,
             'permission': user.permission,
-            'avatar': user.avatar,
-            'login_time': user.login_time
+            'avatar': user.avatar
+            # 'login_time': user.login_time
         }
-        return pretty_result(code.OK, data=returnUser)
+        totalCount = 3;
+        List = [{
+            "id": "@id",
+            "permission": "editor",
+          }]
+        return pretty_result(code.OK, data=List)
 
     @login_required
     def post(self):
         user = UsersModel.get(UsersModel, g.user_id)
         returnUser = {
             'id': user.id,
-            'username': user.username,
+            'userName': user.username,
             'email': user.email,
             'permission': user.permission,
-            'avatar': user.avatar,
-            'login_time': user.login_time
+            'avatar': user.avatar
+            # 'login_time': user.login_time
         }
         return pretty_result(code.OK, data=returnUser)
 

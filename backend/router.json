@@ -42,19 +42,13 @@
       "component": "Layout",
       "redirect": "noRedirect",
       "name": "PersonnelManagement",
-      "meta": { "title": "人员", "icon": "users-cog" },
+      "meta": { "title": "管理页面", "icon": "users-cog" },
       "children": [
         {
           "path": "userManagement",
           "name": "UserManagement",
           "component": "personnelManagement/userManagement/index",
           "meta": { "title": "用户管理", "permissions": ["superAdmin"] }
-        },
-        {
-          "path": "roleManagement",
-          "name": "RoleManagement",
-          "component":"personnelManagement/roleManagement/index",
-          "meta": { "title": "角色管理", "permissions": ["superAdmin"] }
         }
       ]
     },
