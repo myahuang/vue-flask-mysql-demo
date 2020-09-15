@@ -131,3 +131,5 @@ dmypy.json
 .idea
 mysql/data
 nginx/logs
+*/node_modules
+*/.vscode
