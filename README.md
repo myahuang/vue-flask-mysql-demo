@@ -25,3 +25,22 @@ vue-cli部署
 https://cli.vuejs.org/guide/deployment.html#github-pages
 * 后端 flask mysql gunicorn nginx docker
 * 前后端服务编排 docker compose
+
+#install
+*首次运行打开backend/startup.sh 中的注释部分
+
+注册管理员信息
+curl -d '{"email":"admin@qq.com", "username": "admin", "permission": "superAdmin", "password": "admin123" }' -H "Content-Type: application/json" -X POST http://localhost:5000/api/v1/register
+
+登录测试
+curl -d '{"username": "admin", "password": "admin123" }' -H "Content-Type: application/json" -X POST http://localhost:5000/api/v1/login
+
+# 注意配置文件端口号问题nginx
+前端nginx代理静态页面，转发到nginx容器，nginx代理前后端页面接口
+
+create table users(
+      id int identity(1,1),
+      username varchar(100),
+      email varchar(100),
+      login_time varchar(100),
+)

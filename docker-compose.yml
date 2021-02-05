@@ -20,7 +20,8 @@ services:
     restart: always
     build: ./frontend
     ports:
-      - "8085:80"
+      - "80:80"
+
 
   nginx:
     container_name: container_nginx

@@ -96,3 +96,7 @@ WHERE users.username = %(username_1)s
  LIMIT %(param_1)s]
 [parameters: {'username_1': 'admin', 'param_1': 1}]
 (Background on this error at: http://sqlalche.me/e/f405)
+2021-02-03 09:36:34,633 - users.py[line:68] - INFO: (pymysql.err.IntegrityError) (1062, "Duplicate entry 'admin@jtexpress.com' for key 'users.email'")
+[SQL: INSERT INTO users (is_delete, create_time, update_time, email, username, password, permission, avatar, login_time) VALUES (%(is_delete)s, %(create_time)s, %(update_time)s, %(email)s, %(username)s, %(password)s, %(permission)s, %(avatar)s, %(login_time)s)]
+[parameters: {'is_delete': 0, 'create_time': datetime.datetime(2021, 2, 3, 9, 36, 34, 623655), 'update_time': datetime.datetime(2021, 2, 3, 9, 36, 34, 623701), 'email': 'admin@jtexpress.com', 'username': 'admin', 'password': 'pbkdf2:sha256:50000$GcCEDrHZ$c91abab4551e03d1c56b7f5fad09c828edb817e18e9139b3d59e2bd07a9664d3', 'permission': 'superAdmin', 'avatar': 'http://beautiful.panm.cn/vue-admin-beautiful/static/img/user.20010688.gif', 'login_time': 1612344874}]
+(Background on this error at: http://sqlalche.me/e/gkpj)

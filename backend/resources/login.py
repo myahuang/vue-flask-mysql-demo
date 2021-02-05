@@ -32,7 +32,7 @@ class RegisterResource(Resource):
                                  help='email format is incorrect')
         self.parser.add_argument("username", type=str, required=True, location="json",
                                  help='username is required')
-        self.parser.add_argument("permission", type=str, choices=['test','guest', 'user', 'admin', 'superAdmin'], required=True, location="json",
+        self.parser.add_argument("permission", type=str, choices=['test', 'guest', 'user', 'admin', 'superAdmin'], required=True, location="json",
                                  help='permission is required and only (test,user,admin,superAdmin)')
         self.parser.add_argument("password", type=password_len, required=True, location="json", trim=True)
         args = self.parser.parse_args()
